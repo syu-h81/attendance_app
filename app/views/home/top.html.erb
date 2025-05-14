@@ -5,6 +5,49 @@
       margin: 0;
       padding: 0;
     }
+    .container {
+      padding: 2rem;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .card.success {
+      border-left: 6px solid #4caf50;
+    }
+    .card.pending {
+      border-left: 6px solid #ff9800;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      margin-right: 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .btn-disabled {
+      background-color: #ccc;
+      color: #666;
+      cursor: not-allowed;
+    }
+    .btn-active {
+      background-color: #007acc;
+      color: white;
+    }
+    .footer-button {
+      margin-top: 2rem;
+      display: block;
+      background-color: #007acc;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 10px;
+      text-decoration: none;
+    }
     .navbar {
       background-color: #007acc;
       color: white;
@@ -40,15 +83,37 @@
       font-size: 1rem;
     }
   </style>
-<div class="navbar">
-  <div>勤怠管理システム</div>
-  <div><a href="#" style="color: white; text-decoration: underline;">ログイン</a></div>
-</div>
-<div class="container">
-  <h1>勤怠管理システムへようこそ</h1>
-  <div class="card">
-    <p>このシステムでは、出勤・退勤の打刻や勤怠履歴の確認、申請などが行えます。</p>
-    <a href="#" class="btn">ログイン</a>
-    <a href="#" class="btn">管理者ログイン</a>
-  </div>
-</div>
+  <% if current_user %>
+      <header class="header">
+        <div class="header_navbar">
+          <div>勤怠管理システム</div>
+          <div>田中さん ｜ <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %></div>
+      </div>
+      </header>
+      <div class="container">
+        <h2>おはようございます、田中さん！</h2>
+        <p class="timeNow">現在の時刻は、<%= Time.current.strftime("%H:%M") %>です</p>
+        <div class="card success">
+          <p>✅ 出勤打刻：<%= Time.current.strftime("%H:%M") %></p>
+        </div>
+        <div class="card pending">
+          <p>🕓 退勤打刻：未打刻</p>
+        </div>
+        <button class="btn-active" disabled>出勤する</button>
+        <button class="btn-disabled">退勤する</button>
+        <a class="footer-button" href="#">今日の打刻履歴を見る</a>
+      </div>
+    <% else %>
+      <div class="navbar">
+        <div>勤怠管理システム</div>
+        <div><%= link_to('ログイン', "/sign_in") %></div>
+      </div>
+      <div class="container">
+        <h1>勤怠管理システムへようこそ</h1>
+        <div class="card">
+          <p>このシステムでは、出勤・退勤の打刻や勤怠履歴の確認、申請などが行えます。</p>
+          <%= link_to 'ログイン', new_user_session_path, class: 'btn' %>
+          <a href="#" class="btn">管理者ログイン</a>
+        </div>
+      </div>
+    <% end %>
