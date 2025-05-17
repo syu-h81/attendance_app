@@ -87,11 +87,11 @@
       <header class="header">
         <div class="header_navbar">
           <div>勤怠管理システム</div>
-          <div>田中さん ｜ <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %></div>
+          <div><%= current_user.name %>さん ｜ <%= button_to 'ログアウト', destroy_user_session_path, method: :delete %></div>
       </div>
       </header>
       <div class="container">
-        <h2>おはようございます、田中さん！</h2>
+        <h2>おはようございます、<%= current_user.name %>さん！</h2>
         <p class="timeNow">現在の時刻は、<%= Time.current.strftime("%H:%M") %>です</p>
         <div class="card success">
           <p>✅ 出勤打刻：<%= Time.current.strftime("%H:%M") %></p>
